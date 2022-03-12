@@ -1,0 +1,43 @@
+name: log
+
+options:
+  bundleIdPrefix: dev.jano.log
+  usesTabs: false
+  indentWidth: 4
+  tabWidth: 4
+  createIntermediateGroups: true
+  deploymentTarget:
+    iOS: "14.5"
+
+settings:
+    CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED: YES
+    CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER: YES
+
+targets:
+
+  Log:
+    platform: iOS
+    postCompileScripts:
+      - script: swiftlint
+        name: Swiftlint
+    settings:
+      INFOPLIST_FILE: targets/main/Info.plist
+    sources: 
+      - sources/main
+      - targets/main/Info.plist
+    type: framework
+
+  LogTests:
+    dependencies:
+      - target: Log
+    platform: iOS
+    postCompileScripts:
+      - script: swiftlint
+        name: Swiftlint
+    settings:
+      INFOPLIST_FILE: targets/tests/Info.plist
+      PRODUCT_BUNDLE_IDENTIFIER: dev.jano.log.tests
+    sources:
+      - sources/tests
+      - targets/tests/Info.plist
+    type: bundle.unit-test
